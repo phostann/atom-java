@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: atom
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/atom?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: root
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+
+  api-docs:
+    path: /v3/api-docs
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+security:
+  jwt:
+    secret-key: 01e4736b358877d070a1c4fa96b1359f4e67478e9bebbd3af4257582823e3054
+    # 30 天过期
+    expiration-time: 2592000000
