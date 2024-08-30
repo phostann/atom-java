@@ -26,23 +26,18 @@ public interface IJwtService {
 
     String generateToken(Map<String, Object> extraClaims, UserDetails userDetails);
 
+    String generateRefreshToken(UserDetails userDetails);
+
+    String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails);
+
     long getExpirationTime();
+
+    long getRefreshExpirationTime();
+
+    boolean isRefreshToken(String token);
 
     boolean isTokenValid(String token, UserDetails userDetails);
 
-    /**
-     * <p>
-     *
-     * </p>
-     *
-     * @author 骸
-     * @since 2024-08-29 15:32:09
-     */
-    interface IAuthenticationService {
-
-        UserEntity signup(RegisterUserDTO dto);
-
-        UserEntity authenticate(LoginUserDTO dto);
-    }
+    boolean isRefreshTokenValid(String token);
 }
 

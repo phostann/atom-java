@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -30,6 +31,9 @@ public class JwtServiceImpl implements IJwtService {
 
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
+
+    @Value("${security.jwt.refresh-expiration-time}")
+    private long refreshJwtExpiration;
 
     @Override
     public String extractUsername(String token) {
@@ -53,14 +57,44 @@ public class JwtServiceImpl implements IJwtService {
     }
 
     @Override
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(Map.of("refresh", true), userDetails, refreshJwtExpiration);
+    }
+
+    @Override
+    public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        HashMap<String, Object> claims = new HashMap<>(extraClaims);
+        claims.put("refresh", true);
+        return buildToken(claims, userDetails, refreshJwtExpiration);
+    }
+
+    @Override
     public long getExpirationTime() {
         return jwtExpiration;
+    }
+
+    @Override
+    public long getRefreshExpirationTime() {
+        return refreshJwtExpiration;
+    }
+
+    @Override
+    public boolean isRefreshToken(String token) {
+        return extractClaim(token, claims -> claims.containsKey("refresh") && (boolean) claims.get("refresh"));
     }
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    @Override
+    public boolean isRefreshTokenValid(String refreshToken) {
+        if (isRefreshToken(refreshToken)) {
+            return !isTokenExpired(refreshToken);
+        }
+        return false;
     }
 
     private String buildToken(

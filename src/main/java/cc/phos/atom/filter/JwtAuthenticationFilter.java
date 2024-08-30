@@ -1,5 +1,6 @@
 package cc.phos.atom.filter;
 
+import cc.phos.atom.constants.AuthConstants;
 import cc.phos.atom.service.IJwtService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
@@ -45,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith(AuthConstants.TOKEN_TYPE + " ")) {
             filterChain.doFilter(request, response);
             return;
         }

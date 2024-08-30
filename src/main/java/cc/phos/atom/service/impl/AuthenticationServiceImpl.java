@@ -3,7 +3,7 @@ package cc.phos.atom.service.impl;
 import cc.phos.atom.domain.dto.auth.LoginUserDTO;
 import cc.phos.atom.domain.dto.auth.RegisterUserDTO;
 import cc.phos.atom.domain.po.UserEntity;
-import cc.phos.atom.service.IJwtService;
+import cc.phos.atom.service.IAuthenticationService;
 import cc.phos.atom.service.IUserService;
 import jakarta.annotation.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @since 2024-08-29 15:33:19
  */
 @Service
-public class AuthenticationServiceImpl implements IJwtService.IAuthenticationService {
+public class AuthenticationServiceImpl implements IAuthenticationService {
     @Resource
     private IUserService userService;
 

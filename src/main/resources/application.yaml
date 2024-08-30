@@ -27,3 +27,5 @@ security:
     secret-key: 01e4736b358877d070a1c4fa96b1359f4e67478e9bebbd3af4257582823e3054
     # 30 天过期
     expiration-time: 2592000000
+    # 30 天过期
+    refresh-expiration-time: 2592000000
